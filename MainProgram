@@ -1,14 +1,42 @@
 package GymClasses;
 
+import java.util.*;
+import java.io.*;
 public class MainProgram {
 
 	public static void main(String[] args) {
-		System.out.println("Welcome, the program is now running, type in the number for what you want to do");
+		
+
+		System.out.println("Welcome, the program is now running.\n Type in the number/word representing what you want to do");
 		System.out.println("1: Create a new member");
 		System.out.println("2: Create a new class");
 		System.out.println("3: Add a gymcard to an existing member");
-		System.out.println("");
-		
+		System.out.println("quit: to exit the program");
+
+	}
+	public static void menu(){
+		Scanner scanner = new Scanner(System.in);
+		int i = 0;
+		while (i < 1){
+			System.out.print(">> ");
+			String input = scanner.nextLine();
+			if (input.equals("1")){
+
+			}
+			if (input.equals("2")){
+
+			}
+			if (input.equals("3")){
+
+			}
+			if (input.equals("quit")){
+				break;
+			}
+			else{
+				menu();
+			}
+		}
+
 	}
 
 }
