@@ -4,12 +4,13 @@ import java.util.*;
 
 public class PunchCard {
 	// private variables
-	private Member owner;
+	public Member owner;
 	private Date startDate; 
-	private Date endDate = null;
+	private int remPunches;
 	
 	//constructor
 	public PunchCard(){
 		
 	}
+	
 }
