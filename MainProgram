@@ -11,6 +11,7 @@ public class MainProgram {
 		System.out.println("1: Create a new member");
 		System.out.println("2: Create a new class");
 		System.out.println("3: Add a gymcard to an existing member");
+		System.out.println("4: View member information.");
 		System.out.println("quit: to exit the program");
 		menu();
 
@@ -31,7 +32,10 @@ public class MainProgram {
 			}
 			// Add a gymcard to an existing member
 			if (input.equals("3")){
-
+				
+			}
+			if (input.equals("4")){
+				printMemb();
 			}
 			if (input.equals("quit")){
 				System.out.println("Goodbye!");
@@ -42,20 +46,26 @@ public class MainProgram {
 			}
 
 		}
-		scanner1.close();
+		//scanner1.close();
 	}
 
-	public static void createMember(){
+	public void createMember(){
 		Scanner scanner2 = new Scanner(System.in);
-		System.out.println("Enter the members ID-number: ");
+		System.out.println("Enter the members ID-number(yyyymmdd-xxxx): ");
 		String id = scanner2.nextLine();
 		System.out.println("Enter the members first name: ");
 		String fName = scanner2.nextLine();
 		System.out.println("Enter the members last name: ");
 		String lName = scanner2.nextLine();
 		GymClasses.Member.createMember(fName, lName, id);
+
 		menu();
 		//scanner2.close();
 	}
-
+	public void printMemb(){
+		Scanner scanner3 = new Scanner(System.in);
+		System.out.println("Enter the members ID-number(yyyymmdd-xxxx): ");
+		String idReference = scanner3.nextLine();
+		GymClasses.Member.printMember(idReference);
+	}
 }
