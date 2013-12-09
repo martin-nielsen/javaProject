@@ -7,9 +7,15 @@ public class Member {
 	private String firstName;
 	private int[] idNumber = new int[4]; // int[yy, mm, dd, xxxx]
 	private Date registration;
+	private static int numberOfMembers = 0;
 	
+	public static int amountOfMembers(){
+		return numberOfMembers;
+	}
 	//constuctor
 	public Member(){
-		
+		firstName = " ";
+		lastName = "";
+		numberOfMembers += 1;
 	}
 }
