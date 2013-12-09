@@ -1,0 +1,8 @@
+package GymClasses;
+
+import java.util.*;
+
+public class Workout {
+	
+
+}
