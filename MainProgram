@@ -21,16 +21,20 @@ public class MainProgram {
 		while (i < 1){
 			System.out.print(">> ");
 			String input = scanner.nextLine();
+			// Create a new member
 			if (input.equals("1")){
 
 			}
+			// Create a new class
 			if (input.equals("2")){
 
 			}
+			// Add a gymcard to an existing member
 			if (input.equals("3")){
 
 			}
 			if (input.equals("quit")){
+				System.out.println("Goodbye!");
 				i += 1;
 			}
 			else{
