@@ -3,6 +3,10 @@ package GymClasses;
 import java.util.*;
 
 public class Workout {
-	
+	private String name;
+	private Date start;
+	private Date end;
+	private int freeSlots;
+	private int bookedSlots;
 
 }
