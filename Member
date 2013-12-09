@@ -1,12 +1,13 @@
 package GymClasses;
 import java.util.*;
+import java.text.*;
 
 public class Member {
 	// private variables
 	private String lastName;
 	private String firstName;
 	private int[] idNumber = new int[4]; // int[yy, mm, dd, xxxx]
-	private Date registration;
+	private String registrationDate;
 	private static int numberOfMembers = 0;
 	
 	public static int amountOfMembers(){
@@ -15,7 +16,10 @@ public class Member {
 	//constuctor
 	public Member(){
 		firstName = " ";
-		lastName = "";
+		lastName = " ";
 		numberOfMembers += 1;
+		Date currentDate = new Date();
+		SimpleDateFormat form = new SimpleDateFormat("yyyy.MM.dd E 'at' hh:mm:ss");
+		registrationDate = form.format(currentDate);
 	}
 }
