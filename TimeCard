@@ -1,9 +1,16 @@
 package GymClasses;
 
 import java.util.*;
+
 public class TimeCard {
+	// private variables
 	private Member owner;
 	private Date startDate;
 	private Date expirationDate;
 	private ArrayList<String> uses;
+	
+	//constuctor
+	public TimeCard(){
+		
+	}
 }
