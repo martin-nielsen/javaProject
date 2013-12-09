@@ -1,7 +1,6 @@
 package GymClasses;
 
 import java.util.*;
-
 public class TimeCard {
 	// private variables
 	private Member owner;
