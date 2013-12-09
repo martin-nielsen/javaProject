@@ -3,10 +3,15 @@ package GymClasses;
 import java.util.*;
 
 public class Workout {
+	// private variables
 	private String name;
 	private Date start;
 	private Date end;
 	private int freeSlots;
 	private int bookedSlots;
+	
+	//constructor
+	public Workout(){
 
+	}	
 }
