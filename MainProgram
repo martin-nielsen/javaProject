@@ -1,0 +1,14 @@
+package GymClasses;
+
+public class MainProgram {
+
+	public static void main(String[] args) {
+		System.out.println("Welcome, the program is now running, type in the number for what you want to do");
+		System.out.println("1: Create a new member");
+		System.out.println("2: Create a new class");
+		System.out.println("3: Add a gymcard to an existing member");
+		System.out.println("");
+		
+	}
+
+}
