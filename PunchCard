@@ -3,7 +3,13 @@ package GymClasses;
 import java.util.*;
 
 public class PunchCard {
+	// private variables
 	private Member owner;
 	private Date startDate; 
 	private Date endDate = null;
+	
+	//constructor
+	public PunchCard(){
+		
+	}
 }
