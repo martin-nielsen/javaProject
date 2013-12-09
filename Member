@@ -8,33 +8,48 @@ public class Member {
 	private String firstName;
 	private String idNumber;
 	private String registrationDate;
-	private static int numberOfMembers = 0;
+	private int numberOfMembers = 0;
+	
+	// static variables
+	public static ArrayList <Member> memberList;
+	
+	public String getfName(){
+		return firstName;
+	}
+	public String getlName(){
+		return lastName;
+	}
+	public String getID(){
+		return idNumber;
+	}
+	public String getRegDate(){
+		return registrationDate;
+	}
+	public int amountOfMembers(){
+		return numberOfMembers;
+	}
+	public void printMember(String idNum){
+		for (int i = 0; i < memberList.size(); i++){
+			if (idNum.equals(memberList.get(i).getID())){
+				System.out.println(getfName() + " " + getlName() + " " + getID() + " " + getRegDate());
+			}
+		}
+	}
+	public void createMember(String fN, String lN, String iD){
+		Member member1 = new Member(fN, lN, iD);
+		memberList.add(member1);
+	}
+
 	//constuctor
 	public Member(String fN, String lN, String iD){
 		firstName = fN;
 		lastName = lN;
 		idNumber = iD;
-		
 		// adds a member to the total number of members.
 		numberOfMembers += 1;
-		
 		// Sets date of registration and formats the date.
 		Date currentDate = new Date();
 		SimpleDateFormat form = new SimpleDateFormat("yyyy.MM.dd E 'at' hh:mm:ss");
 		registrationDate = form.format(currentDate);
 	}
-	
-	public static int amountOfMembers(){
-		return numberOfMembers;
-	}
-	
-	public static String getMember(String id){
-		return(" ");
-	}
-	
-	public static void createMember(String fN, String lN, String iD){
-		Member member1 = new Member(fN, lN, iD);
-	}
-	
-	
 }
