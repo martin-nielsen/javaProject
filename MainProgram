@@ -16,14 +16,14 @@ public class MainProgram {
 
 	}
 	public static void menu(){
-		Scanner scanner = new Scanner(System.in);
+		Scanner scanner1 = new Scanner(System.in);
 		int i = 0;
 		while (i < 1){
 			System.out.print(">> ");
-			String input = scanner.nextLine();
+			String input = scanner1.nextLine();
 			// Create a new member
 			if (input.equals("1")){
-
+				createMember();
 			}
 			// Create a new class
 			if (input.equals("2")){
@@ -40,9 +40,22 @@ public class MainProgram {
 			else{
 				System.out.println(input + " command does not exist!");
 			}
-			
+
 		}
-		scanner.close();
+		scanner1.close();
+	}
+
+	public static void createMember(){
+		Scanner scanner2 = new Scanner(System.in);
+		System.out.println("Enter the members ID-number: ");
+		String id = scanner2.nextLine();
+		System.out.println("Enter the members first name: ");
+		String fName = scanner2.nextLine();
+		System.out.println("Enter the members last name: ");
+		String lName = scanner2.nextLine();
+		GymClasses.Member.createMember(fName, lName, id);
+		menu();
+		//scanner2.close();
 	}
 
 }
