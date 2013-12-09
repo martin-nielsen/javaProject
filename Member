@@ -6,19 +6,15 @@ public class Member {
 	// private variables
 	private String lastName;
 	private String firstName;
-	private String idNumber; // int[yy, mm, dd, xxxx]
+	private String idNumber;
 	private String registrationDate;
 	private static int numberOfMembers = 0;
-	
-	public static int amountOfMembers(){
-		return numberOfMembers;
-	}
-	
 	//constuctor
 	public Member(String fN, String lN, String iD){
 		firstName = fN;
 		lastName = lN;
 		idNumber = iD;
+		
 		// adds a member to the total number of members.
 		numberOfMembers += 1;
 		
@@ -27,4 +23,18 @@ public class Member {
 		SimpleDateFormat form = new SimpleDateFormat("yyyy.MM.dd E 'at' hh:mm:ss");
 		registrationDate = form.format(currentDate);
 	}
+	
+	public static int amountOfMembers(){
+		return numberOfMembers;
+	}
+	
+	public static String getMember(String id){
+		return(" ");
+	}
+	
+	public static void createMember(String fN, String lN, String iD){
+		Member member1 = new Member(fN, lN, iD);
+	}
+	
+	
 }
