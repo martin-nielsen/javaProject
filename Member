@@ -1,0 +1,10 @@
+package GymClasses;
+import java.util.*;
+
+public class Member {
+	private String lastName;
+	private String firstName;
+	private int[] idNumber = new int[4]; // int[yy, mm, dd, xxxx]
+	private Date registration;
+	
+}
