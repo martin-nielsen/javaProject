@@ -1,0 +1,9 @@
+package GymClasses;
+
+import java.util.*;
+
+public class PunchCard {
+	private Member owner;
+	private Date startDate; 
+	private Date endDate = null;
+}
