@@ -1,0 +1,9 @@
+package GymClasses;
+
+import java.util.*;
+public class TimeCard {
+	private Member owner;
+	private Date startDate;
+	private Date expirationDate;
+	private <StringList> uses = new <StringList>;
+}
