@@ -1,12 +1,12 @@
 package GymClasses;
-
 import java.util.*;
 import java.io.*;
+
 public class MainProgram {
-
+	// code for testing
+	
 	public static void main(String[] args) {
-
-
+	
 		System.out.println("Welcome, the program is now running.\n Type in the number/word representing what you want to do");
 		System.out.println("1: Create a new member");
 		System.out.println("2: Create a new class");
@@ -18,15 +18,16 @@ public class MainProgram {
 	}
 	public static void menu(){
 		Scanner scanner1 = new Scanner(System.in);
+		Member n = new Member("Martin", "Nielsen", "199111240439");
 		int i = 0;
 		while (i < 1){
 			System.out.print(">> ");
 			String input = scanner1.nextLine();
 			// Create a new member
 			if (input.equals("1")){
-				createMember();
+				//createMemb();
 			}
-			// Create a new class
+			// Create a class
 			if (input.equals("2")){
 
 			}
@@ -34,8 +35,9 @@ public class MainProgram {
 			if (input.equals("3")){
 				
 			}
+			// View member information
 			if (input.equals("4")){
-				printMemb();
+				n.printMemb();
 			}
 			if (input.equals("quit")){
 				System.out.println("Goodbye!");
@@ -49,23 +51,6 @@ public class MainProgram {
 		//scanner1.close();
 	}
 
-	public void createMember(){
-		Scanner scanner2 = new Scanner(System.in);
-		System.out.println("Enter the members ID-number(yyyymmdd-xxxx): ");
-		String id = scanner2.nextLine();
-		System.out.println("Enter the members first name: ");
-		String fName = scanner2.nextLine();
-		System.out.println("Enter the members last name: ");
-		String lName = scanner2.nextLine();
-		GymClasses.Member.createMember(fName, lName, id);
-
-		menu();
-		//scanner2.close();
-	}
-	public void printMemb(){
-		Scanner scanner3 = new Scanner(System.in);
-		System.out.println("Enter the members ID-number(yyyymmdd-xxxx): ");
-		String idReference = scanner3.nextLine();
-		GymClasses.Member.printMember(idReference);
-	}
+	
 }
+
