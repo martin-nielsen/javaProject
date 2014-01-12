@@ -6,17 +6,35 @@ public class Member {
 	// private variables
 	private String lastName;
 	private String firstName;
-	private String idNumber;
+	public String idNumber;
 	private String registrationDate;
-	private int numberOfMembers = 0;
 	
 	// static variables
 	public static ArrayList <Member> memberList;
-	
-	public String getfName(){
+	public static int numberOfMembers = 0;
+
+	public Member getMember(String id){
+		Member m = new Member();
+		for (int i = 0; i <= memberList.size(); i++){
+			if (id.equals(memberList.get(i).getID())){
+				m = memberList.get(i);
+			}
+		}
+		return m;
+	}
+	public void setFirstName(String fName){
+		this.firstName = fName;
+	}
+	public void setLastName(String lName){
+		this.lastName = lName;
+	}
+	public void setidNumber(String id){
+		this.idNumber = id;
+	}
+	public String getFirstName(){
 		return firstName;
 	}
-	public String getlName(){
+	public String getLastName(){
 		return lastName;
 	}
 	public String getID(){
@@ -29,27 +47,81 @@ public class Member {
 		return numberOfMembers;
 	}
 	public void printMember(String idNum){
-		for (int i = 0; i < memberList.size(); i++){
-			if (idNum.equals(memberList.get(i).getID())){
-				System.out.println(getfName() + " " + getlName() + " " + getID() + " " + getRegDate());
-			}
-		}
+		Member m = getMember(idNum);
+		System.out.println(m.getFirstName() + " " + m.getLastName() + " " + m.getID() + " " + m.getRegDate());
+
 	}
 	public void createMember(String fN, String lN, String iD){
 		Member member1 = new Member(fN, lN, iD);
 		memberList.add(member1);
 	}
+	public void printMemb(){
+		Scanner scanner3 = new Scanner(System.in);
+		System.out.println("Enter the members ID-number(yyyymmddxxxx): ");
+		String id = scanner3.nextLine();
+		//System.out.print(Member.memberList.size());
+		try {
+			for (int i = 0; i <= numberOfMembers; i++){
+				System.out.print(i);
+				if (id.equals((Member.memberList.get(i)).getID())){
+					Member m = Member.memberList.get(i);
+					System.out.print(m.getFirstName() + " " + m.getLastName() + " Date of registration: " + m.getRegDate());
+	
+				}
+				else{
+					System.out.println("nope");
+				}
+			}
+		}
+		catch (java.lang.NullPointerException e){
+			System.out.println("NullPointerExceptionError occurred while running the 'PrintMember' method.");
+		}
+	}
 
+	//m.getMember(idReference);
+
+	//for (int i = 0; i <= Member.memberList.size(); i++){
+	//if (idReference.equals(Member.memberList.get(i).getID())){
+	//System.out.println(Member.getFirstName() + " " + Member.getLastName() 
+	//				+ " " + Member.getID() + " " + Member.getRegDate());
+	//}
+	//}
+
+	//for (int i = 0 ; i < Member.memberList.size(); i++){
+	//if (idReference == Member.memberList.get(i).idNumber){		
+	//System.out.print(m.getFirstName());
+	//System.out.print(m.getLastName());
+	//System.out.println(m.getRegDate());
+	//}
+	//}
+	// for creating a new member
+	public void createMemb(){
+		Scanner scanner2 = new Scanner(System.in);
+		System.out.println("Enter the members ID-number(yyyymmddxxxx): ");
+		String id = scanner2.nextLine();
+		String idRef = id;
+		System.out.println("Enter the members first name: ");
+		String fName = scanner2.nextLine();
+		System.out.println("Enter the members last name: ");
+		String lName = scanner2.nextLine();
+		Member m = new Member(fName, lName, id);
+		
+		//scanner2.close();
+	}
+	
 	//constuctor
 	public Member(String fN, String lN, String iD){
-		firstName = fN;
-		lastName = lN;
-		idNumber = iD;
+		this.setFirstName(fN);
+		this.setLastName(lN);
+		this.setidNumber(iD);
 		// adds a member to the total number of members.
 		numberOfMembers += 1;
 		// Sets date of registration and formats the date.
 		Date currentDate = new Date();
 		SimpleDateFormat form = new SimpleDateFormat("yyyy.MM.dd E 'at' hh:mm:ss");
 		registrationDate = form.format(currentDate);
+		memberList.add(this);
+		}
+	public Member(){
 	}
 }
