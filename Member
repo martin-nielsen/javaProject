@@ -4,57 +4,69 @@ import java.text.*;
 
 public class Member {
 	// private variables
-	private String lastName;
-	private String firstName;
+	private String name;
 	public String idNumber;
 	private String registrationDate;
-	
+	private String addr;
+	private String phone;
+	private ArrayList<Card> memberCardList = new ArrayList<Card>();
 	// static variables
-	public static ArrayList <Member> memberList;
-	public static int numberOfMembers = 0;
-
-	public Member getMember(String id){
-		Member m = new Member();
-		for (int i = 0; i <= memberList.size(); i++){
-			if (id.equals(memberList.get(i).getID())){
-				m = memberList.get(i);
-			}
-		}
-		return m;
-	}
-	public void setFirstName(String fName){
-		this.firstName = fName;
-	}
-	public void setLastName(String lName){
-		this.lastName = lName;
+	public static ArrayList <Member> memberList = new ArrayList<Member>();
+	public static Integer numberOfMembers = 0;
+	
+	//setters
+	public void setName(String fName){
+		this.name = fName;
 	}
 	public void setidNumber(String id){
 		this.idNumber = id;
 	}
-	public String getFirstName(){
-		return firstName;
+	public void setAddr(String address){
+		this.addr = address;
 	}
-	public String getLastName(){
-		return lastName;
+	public void setPhone(String phNumber){
+		this.phone = phNumber;
+	}
+//---------------------------------------------------
+//---------------------------------------------------	
+	
+	//getters
+	public String getName(){
+		return name;
 	}
 	public String getID(){
 		return idNumber;
 	}
+	public String getAddress(){
+		return addr;
+	}
+	public String getPhone(){
+		return phone;
+	}
 	public String getRegDate(){
 		return registrationDate;
 	}
-	public int amountOfMembers(){
+	public int getNumberOfMembers(){
 		return numberOfMembers;
 	}
+	public ArrayList<Card> getMemberCardList(){
+		return memberCardList;
+	}
+	
+//---------------------------------------------------	
+//---------------------------------------------------	
+
+/*
 	public void printMember(String idNum){
 		Member m = getMember(idNum);
-		System.out.println(m.getFirstName() + " " + m.getLastName() + " " + m.getID() + " " + m.getRegDate());
-
+		System.out.println(m.getName() + " " + m.getID() + " " + m.getRegDate());
 	}
-	public void createMember(String fN, String lN, String iD){
-		Member member1 = new Member(fN, lN, iD);
+
+	public void createMember(String name, String iD, String addr, String phone){
+		Member member1 = new Member(name, iD, addr, phone);
 		memberList.add(member1);
 	}
+
 	public void printMemb(){
 		Scanner scanner3 = new Scanner(System.in);
 		System.out.println("Enter the members ID-number(yyyymmddxxxx): ");
@@ -65,8 +77,8 @@ public class Member {
 				System.out.print(i);
 				if (id.equals((Member.memberList.get(i)).getID())){
 					Member m = Member.memberList.get(i);
-					System.out.print(m.getFirstName() + " " + m.getLastName() + " Date of registration: " + m.getRegDate());
-	
+					System.out.print(m.getName() + " Date of registration: " + m.getRegDate());
+
 				}
 				else{
 					System.out.println("nope");
@@ -79,7 +91,7 @@ public class Member {
 	}
 
 	//m.getMember(idReference);
-
+*/
 	//for (int i = 0; i <= Member.memberList.size(); i++){
 	//if (idReference.equals(Member.memberList.get(i).getID())){
 	//System.out.println(Member.getFirstName() + " " + Member.getLastName() 
@@ -95,33 +107,38 @@ public class Member {
 	//}
 	//}
 	// for creating a new member
-	public void createMemb(){
-		Scanner scanner2 = new Scanner(System.in);
+	
+	//public void createMemb(String name, String pnr,String addr, String phone){
+		/*Scanner scanner2 = new Scanner(System.in);
 		System.out.println("Enter the members ID-number(yyyymmddxxxx): ");
 		String id = scanner2.nextLine();
 		String idRef = id;
-		System.out.println("Enter the members first name: ");
-		String fName = scanner2.nextLine();
-		System.out.println("Enter the members last name: ");
-		String lName = scanner2.nextLine();
-		Member m = new Member(fName, lName, id);
-		
+		System.out.println("Enter the members name: ");
+		String name = scanner2.nextLine();
+		System.out.println("Enter the members address: ");
+		String addr = scanner2.nextLine();
+		System.out.println("Enter the members phone number: ");
+		String phone = scanner2.nextLine();
+		Member m = new Member(name, id, addr, phone);
+*/
 		//scanner2.close();
-	}
-	
-	//constuctor
-	public Member(String fN, String lN, String iD){
-		this.setFirstName(fN);
-		this.setLastName(lN);
-		this.setidNumber(iD);
+	//}
+
+	//constuctors
+	public Member(String name, String iD, String addr, String phone){
+		setName(name);
+		setidNumber(iD);
+		setAddr(addr);
+		setPhone(phone);
 		// adds a member to the total number of members.
 		numberOfMembers += 1;
 		// Sets date of registration and formats the date.
 		Date currentDate = new Date();
-		SimpleDateFormat form = new SimpleDateFormat("yyyy.MM.dd E 'at' hh:mm:ss");
-		registrationDate = form.format(currentDate);
+		SimpleDateFormat form = new SimpleDateFormat("yyyy-MM-dd");
+		this.registrationDate = form.format(currentDate);
 		memberList.add(this);
-		}
+		
+	}
 	public Member(){
 	}
 }
