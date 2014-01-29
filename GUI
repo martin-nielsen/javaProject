@@ -1,0 +1,661 @@
+package GymClasses;
+
+import java.awt.BorderLayout;
+
+public class GUI extends JFrame {
+
+	private JPanel contentPane;
+
+	// variables for start-screen
+	private JButton addMemberButton;
+	private JButton addSessionButton;
+	private JButton addCardButton;
+	private JButton registerButton;
+	private JButton registerVisitButton;
+	private JButton showMembersButton;
+	private JButton showCardsButton;
+	private JButton saveChangesButton;
+	private JButton showVisitsButton;
+	// variables for new registrations
+	//Labels
+	private JLabel nameLabel;
+	private JLabel idLabel;
+	private JLabel addressLabel;
+	private JLabel phoneLabel;
+	private JLabel typeLabel;
+	private JLabel dateLabel;
+	private JLabel cardNumberLabel;
+	private JLabel priceLabel;
+	private JLabel activityTypeLabel;
+	private JLabel activityNameLabel;
+	private JLabel startLabel;
+	private JLabel endLabel;
+	private JLabel totalSlotsLabel;
+	//TextFields
+	private JTextField nameTextField;
+	private JTextField idTextField;
+	private JTextField addressTextField;
+	private JTextField phoneTextField;
+	private JTextField typeTextField;
+	private JTextField dateTextField;
+	private JTextField cardNumberTextField;
+	private JTextField priceTextField;
+	private JTextField activityTypeTextField;
+	private JTextField activityNameTextField;
+	private JTextField startTextField;
+	private JTextField totalSlotsTextField;
+	private JTextField endTextField;
+	private JTextArea showMembersTextArea;
+	private JTextArea showCardsTextArea;
+	private JTextArea showVisitsTextArea;
+
+	//return button
+	private JButton returnButton;
+
+
+	// Initiaties JFrames
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					GUI startFrame = new GUI("startFrame");
+					//sets visibility of JFrames
+					startFrame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+
+	public void init(){
+		setSize(640,480);
+		setLocation(250,250);
+		setTitle("Gym Interface");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setLayout(null);
+		//The buttons for the start screen
+		addMemberButton = new JButton("Register New Member");
+		addMemberButton.setSize(200,30);
+		addMemberButton.setLocation(220, 20);
+
+		addSessionButton = new JButton("Create a New Session");
+		addSessionButton.setSize(200,30);
+		addSessionButton.setLocation(220, 60);
+
+		addCardButton = new JButton("Register a New Card");
+		addCardButton.setSize(200,30);
+		addCardButton.setLocation(220, 100);
+
+		registerVisitButton = new JButton("Register a New Visit");
+		registerVisitButton.setSize(200,30);
+		registerVisitButton.setLocation(220, 140);
+
+		showMembersButton = new JButton("Show All Members");
+		showMembersButton.setSize(200,30);
+		showMembersButton.setLocation(220, 180);
+
+		showCardsButton = new JButton("Show All Cards");
+		showCardsButton.setSize(200,30);
+		showCardsButton.setLocation(220,220);
+		
+		saveChangesButton = new JButton("Save Changes");
+		saveChangesButton.setSize(200,30);
+		saveChangesButton.setLocation(600,400);
+		
+		showVisitsButton = new JButton("Show Visits");
+		showVisitsButton.setSize(200,30);
+		showVisitsButton.setLocation(220,260);
+		
+		//adds the elements of the start window.
+		this.add(addMemberButton);
+		this.add(addSessionButton);
+		this.add(addCardButton);
+		this.add(registerVisitButton);
+		this.add(showMembersButton);
+		this.add(showCardsButton);
+		this.add(saveChangesButton);
+		this.add(showVisitsButton);
+		//initiates relevant frames
+
+		//Listeners for the startscreen buttons.
+		addMemberButton.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				GUI addMemberFrame = new GUI("addMemberFrame");
+				addMemberFrame.setVisible(true);
+
+			}
+		});
+		addSessionButton.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				GUI addSessionFrame = new GUI("addSessionFrame");
+				addSessionFrame.setVisible(true);
+			}
+		});
+		addCardButton.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				GUI addCardFrame = new GUI("addCardFrame");
+				addCardFrame.setVisible(true);
+			}
+		});
+		registerVisitButton.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				GUI registerVisitFrame = new GUI("registerVisitFrame");
+				registerVisitFrame.setVisible(true);
+			}
+		});
+		showMembersButton.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				GUI showMembersFrame = new GUI("showMembersFrame");
+				showMembersFrame.setVisible(true);
+			}
+		});
+		showCardsButton.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				GUI showCardsFrame = new GUI("showCardsFrame");
+				showCardsFrame.setVisible(true);
+			}
+		});
+		saveChangesButton.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				DataIO.writeData();
+			}
+		});
+		showVisitsButton.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				GUI showVisitsFrame = new GUI("showVisitsFrame");
+				showVisitsFrame.setVisible(true);
+			}
+		});		
+		
+	}
+	public void addMemberFrame(){
+		// the Labels for the member registration window
+		setSize(640,480);
+		setLocation(250,250);
+		setTitle("Add Member");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setLayout(null);
+
+		nameLabel = new JLabel("Name: ");
+		nameLabel.setSize(100,20);
+		nameLabel.setLocation(20,20);
+
+		idLabel = new JLabel("ID-Number: ");
+		idLabel.setSize(100, 20);
+		idLabel.setLocation(20, 50);
+
+		addressLabel = new JLabel("Address: ");
+		addressLabel.setSize(100,20);
+		addressLabel.setLocation(20,80);
+
+		phoneLabel = new JLabel("Phone Number");
+		phoneLabel.setSize(100,20);
+		phoneLabel.setLocation(20,110);
+
+		//Text Fields are initiated
+		nameTextField = new JTextField();
+		nameTextField.setSize(300,20);
+		nameTextField.setLocation(120,20);
+
+		idTextField = new JTextField();
+		idTextField.setSize(300,20);
+		idTextField.setLocation(120,50);
+
+		addressTextField = new JTextField();
+		addressTextField.setSize(300,20);
+		addressTextField.setLocation(120,80);
+
+		phoneTextField = new JTextField();
+		phoneTextField.setSize(300,20);
+		phoneTextField.setLocation(120,110);
+
+		//adds the elements to the window
+		this.add(nameLabel);
+		this.add(nameTextField);
+		this.add(idLabel);
+		this.add(idTextField);
+		this.add(addressLabel);
+		this.add(addressTextField);
+		this.add(phoneLabel);
+		this.add(phoneTextField);
+
+
+		// Register button
+		registerButton = new JButton("Register");
+		registerButton.setSize(100,30);
+		registerButton.setLocation(500, 100);
+		this.add(registerButton);
+		registerButton.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				String name = nameTextField.getText();
+				String id = idTextField.getText();
+				String address = addressTextField.getText();
+				String phone = phoneTextField.getText();
+				Member M = new Member(name, id, address, phone);
+			}
+		});
+
+		// Return BUtton
+		returnButton = new JButton("Back");
+		returnButton.setSize(100,30);
+		returnButton.setLocation(500, 20);
+		this.add(returnButton);
+		returnButton.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				GUI startFrame = new GUI("startFrame");
+				startFrame.setVisible(true);
+			}
+		});
+
+	}
+
+	public void addSessionFrame(){
+		setSize(640,480);
+		setLocation(250,250);
+		setTitle("Create Session");
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		this.setLayout(null);
+
+		activityTypeLabel = new JLabel("Session type: ");
+		activityTypeLabel.setSize(100,20);
+		activityTypeLabel.setLocation(20,20);
+		this.add(activityTypeLabel);
+		activityTypeTextField = new JTextField();
+		activityTypeTextField.setSize(300,20);
+		activityTypeTextField.setLocation(150,20);
+		this.add(activityTypeTextField);
+
+		activityNameLabel = new JLabel("Session name: ");
+		activityNameLabel.setSize(100,20);
+		activityNameLabel.setLocation(20,50);
+		this.add(activityNameLabel);
+		activityNameTextField = new JTextField();
+		activityNameTextField.setSize(300,20);
+		activityNameTextField.setLocation(150,50);
+		this.add(activityNameTextField);
+
+		startLabel = new JLabel("Start date(yy:MM:dd:hh:mm): ");
+		startLabel.setSize(100,20);
+		startLabel.setLocation(20,80);
+		this.add(startLabel);
+		startTextField = new JTextField();
+		startTextField.setSize(300,20);
+		startTextField.setLocation(150,80);
+		this.add(startTextField);
+
+		endLabel = new JLabel("End date(yy:MM:dd:hh:mm): ");
+		endLabel.setSize(100,20);
+		endLabel.setLocation(20,110);
+		this.add(endLabel);
+		endTextField = new JTextField();
+		endTextField.setSize(300,20);
+		endTextField.setLocation(150,110);
+		this.add(endTextField);
+
+		totalSlotsLabel = new JLabel("Number of slots: ");
+		totalSlotsLabel.setSize(100,20);
+		totalSlotsLabel.setLocation(20,140);
+		this.add(totalSlotsLabel);
+		totalSlotsTextField = new JTextField();
+		totalSlotsTextField.setSize(300,20);
+		totalSlotsTextField.setLocation(150,140);
+		this.add(totalSlotsTextField);
+
+		// Register button
+		registerButton = new JButton("Register");
+		registerButton.setSize(100,30);
+		registerButton.setLocation(500, 100);
+		this.add(registerButton);
+		registerButton.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				String aType = activityTypeTextField.getText();
+				String aName = activityNameTextField.getText();
+				String start = startTextField.getText();
+				String end = endTextField.getText();
+				Integer totalSlots = Integer.parseInt(totalSlotsTextField.getText());
+
+				if (activityNameTextField.getText().equals("")
+						|| activityTypeTextField.getText().equals("")
+						|| startTextField.getText().equals("")
+						|| endTextField.getText().equals("")
+						|| totalSlotsTextField.getText().equals("")){
+					JOptionPane.showMessageDialog(null,
+							"You left atleast one of the fields empty.");
+				}
+				else{
+					try{
+						Session newSession = new Session(aType, aName, start, end, totalSlots);
+						JOptionPane.showMessageDialog(null,
+								aName + " has been succesfully created");
+					}
+
+					// just entered some error
+					// if others are found they will be added here
+					catch(NumberFormatException numbError){
+
+					}
+				}
+			}
+		});
+
+		// Return button
+		returnButton = new JButton("Back");
+		returnButton.setSize(100,30);
+		returnButton.setLocation(500, 20);
+		this.add(returnButton);
+		returnButton.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				GUI startFrame = new GUI("startFrame");
+				startFrame.setVisible(true);
+			}
+		});
+
+	}
+	public void addCardFrame(){
+		setSize(640,480);
+		setLocation(250,250);
+		setTitle("Create Card");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setLayout(null);
+
+		typeLabel = new JLabel("Type: ");
+		typeLabel.setSize(100,20);
+		typeLabel.setLocation(20,20);
+		typeTextField = new JTextField();
+		typeTextField.setSize(300,20);
+		typeTextField.setLocation(120,20);
+
+		cardNumberLabel = new JLabel("Card number: ");
+		cardNumberLabel.setSize(100,20);
+		cardNumberLabel.setLocation(20,50);
+		cardNumberTextField = new JTextField();
+		cardNumberTextField.setSize(300,20);
+		cardNumberTextField.setLocation(120,50);
+
+		idLabel = new JLabel("Owners ID: ");
+		idLabel.setSize(100,20);
+		idLabel.setLocation(20, 80);
+		idTextField = new JTextField();
+		idTextField.setSize(300,20);
+		idTextField.setLocation(120,80);
+
+		priceLabel = new JLabel("Price: ");
+		priceLabel.setSize(100,20);
+		priceLabel.setLocation(20, 110);
+		priceTextField = new JTextField();
+		priceTextField.setSize(300,20);
+		priceTextField.setLocation(120,110);
+		//probably unnecessary, use Calendar - getInstance()
+		dateLabel = new JLabel("Todays date(yyyy-MM-dd):");
+		dateLabel.setSize(100,20);
+		dateLabel.setLocation(20, 140);
+		dateTextField = new JTextField();
+		dateTextField.setSize(300,20);
+		dateTextField.setLocation(120,140);
+
+		activityTypeLabel = new JLabel();
+		activityTypeLabel.setSize(100,20);
+		activityTypeLabel.setLocation(20, 140);
+		activityTypeTextField = new JTextField();
+		activityTypeTextField.setSize(300,20);
+		activityTypeTextField.setLocation(120,140);
+
+		registerButton = new JButton("Register");
+		registerButton.setSize(100,30);
+		registerButton.setLocation(500, 100);
+		this.add(typeLabel);
+		this.add(typeTextField);
+		this.add(cardNumberLabel);
+		this.add(cardNumberTextField);
+		this.add(idLabel);
+		this.add(idTextField);
+		this.add(priceLabel);
+		this.add(priceTextField);
+		this.add(dateLabel);
+		this.add(dateTextField);
+		this.add(activityTypeLabel);
+		this.add(activityTypeTextField);
+
+		this.add(registerButton);	
+		registerButton.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				String cType = typeTextField.getText();
+				String cardNumber = cardNumberTextField.getText();
+				String id = idTextField.getText();
+				double price = Double.parseDouble(priceTextField.getText());
+				String activityType = activityTypeTextField.getText();
+				String dates = dateTextField.getText();
+				if (activityNameTextField.getText().equals("")
+						|| activityTypeTextField.getText().equals("")
+						|| startTextField.getText().equals("")
+						|| endTextField.getText().equals("")
+						|| totalSlotsTextField.getText().equals("")){
+					JOptionPane.showMessageDialog(null,
+							"You left atleast one of the fields empty.");
+				}
+				else{
+					try{
+						SimpleDateFormat dformat = new SimpleDateFormat("yyyy-MM-dd");
+						// Use the format to parse (read and interpret) the datestring, e.g. "2013-09-10", as a date instance
+						Date date = dformat.parse(dates);
+						// Create a new calendar instance (Calendar is an abstract class, the instance will be a GregorianCalendar)
+						Calendar expdate = Calendar.getInstance();
+						// Use the date instance, to set the correct values in the new calendar, so that it represents our date
+						expdate.setTime(date);
+
+						Card newCard = new Card(cType, cardNumber, id, price, dates, expdate, activityType);
+						JOptionPane.showMessageDialog(null,
+								"A new " + cType + " has been succesfully created");
+					}
+
+					// just entered some error
+					// if others are found they will be added here
+					catch (ParseException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+			}
+
+
+		});
+		//adds all elements except register and return buttons.
+
+		// Return Button
+		returnButton = new JButton("Back");
+		returnButton.setSize(100,30);
+		returnButton.setLocation(500, 20);
+		this.add(returnButton);
+		returnButton.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				GUI startFrame = new GUI("startFrame");
+				startFrame.setVisible(true);
+			}
+		});
+
+	}
+	public void registerVisitFrame(){
+		setSize(640,480);
+		setLocation(250,250);
+		setTitle("Register Visit");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setLayout(null);
+		cardNumberLabel = new JLabel("Card Number: ");
+		cardNumberLabel.setSize(100,20);
+		cardNumberLabel.setLocation(20,20);
+		cardNumberTextField = new JTextField();
+		cardNumberTextField.setSize(300,20);
+		cardNumberTextField.setLocation(120,20);
+		
+		activityTypeLabel = new JLabel("Activity Type: ");
+		activityTypeLabel.setSize(100,20);
+		activityTypeLabel.setLocation(20, 50);
+		activityTypeTextField = new JTextField();
+		activityTypeTextField.setSize(300,20);
+		activityTypeTextField.setLocation(120,50);
+
+
+		activityNameLabel = new JLabel("Activity Name: ");
+		activityNameLabel.setSize(100,20);
+		activityNameLabel.setLocation(20, 80);
+		activityNameTextField = new JTextField();
+		activityNameTextField.setSize(300,20);
+		activityNameTextField.setLocation(120,80);
+
+		this.add(cardNumberLabel);
+		this.add(cardNumberTextField);
+		this.add(activityNameLabel);
+		this.add(activityNameTextField);
+		this.add(activityTypeLabel);
+		this.add(activityTypeTextField);
+
+		// Register button
+		registerButton = new JButton("Register");
+		registerButton.setSize(100,30);
+		registerButton.setLocation(500, 100);
+		this.add(registerButton);
+		registerButton.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				//String cardNumber = cardNumberTextField.getText();
+				String activityType = activityTypeTextField.getText();
+				String activityName = activityNameTextField.getText();
+
+				GymClasses.Visit newVisit = new GymClasses.Visit(Calendar.getInstance(), activityType, activityName);
+			}
+		});
+
+		// Return Button
+		returnButton = new JButton("Back");
+		returnButton.setSize(100,30);
+		returnButton.setLocation(500, 20);
+		this.add(returnButton);
+		returnButton.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				GUI startFrame = new GUI("startFrame");
+				startFrame.setVisible(true);
+			}
+		});
+
+	}
+	public void showMembersFrame(){
+		setSize(640,480);
+		setLocation(250,250);
+		setTitle("Members Display");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setLayout(null);
+		//String nuMem = Integer.toString(Member.numberOfMembers);
+		//showMembersTextField = new JTextField(nuMem);
+		showMembersTextArea = new JTextArea(DataIO.writeCustomerString(Member.memberList));//
+		showMembersTextArea.setSize(450,400);
+		showMembersTextArea.setLocation(20,20);
+		showMembersTextArea.setColumns(4);
+		this.add(showMembersTextArea);
+
+		// Return Button
+		returnButton = new JButton("Back");
+		returnButton.setSize(100,30);
+		returnButton.setLocation(500, 20);
+		this.add(returnButton);	
+		returnButton.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				GUI startFrame = new GUI("startFrame");
+				startFrame.setVisible(true);
+			}
+		});
+
+	}
+	public void showCardsFrame(){
+		setSize(640,480);
+		setLocation(250,250);
+		setTitle("Cards Display");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setLayout(null);
+
+		showCardsTextArea = new JTextArea(
+				DataIO.writeCardString(Member.memberList)
+			);
+		showCardsTextArea.setSize(450,400);
+		showCardsTextArea.setLocation(20,20);
+		this.add(showCardsTextArea);
+
+		// Return Button
+		returnButton = new JButton("Back");
+		returnButton.setSize(100,30);
+		returnButton.setLocation(500, 20);
+		this.add(returnButton);
+		returnButton.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				GUI startFrame = new GUI("startFrame");
+				startFrame.setVisible(true);
+			}
+		});
+
+	}
+	public void showVisitsFrame(){
+		setSize(640,480);
+		setLocation(250,250);
+		setTitle("Visits Display");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setLayout(null);
+
+		showVisitsTextArea = new JTextArea(DataIO.writeVisitString());
+		showVisitsTextArea.setSize(450,400);
+		showVisitsTextArea.setLocation(20,20);
+		this.add(showVisitsTextArea);
+
+		// Return Button
+		returnButton = new JButton("Back");
+		returnButton.setSize(100,30);
+		returnButton.setLocation(500, 20);
+		this.add(returnButton);
+		returnButton.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				GUI startFrame = new GUI("startFrame");
+				startFrame.setVisible(true);
+			}
+		});
+
+	}
+	public GUI(String frameName) {
+		if (frameName.equals("startFrame")){
+			init();
+		}
+		if (frameName.equals("addMemberFrame")){
+			addMemberFrame();
+		}
+		if (frameName.equals("addSessionFrame")){
+			addSessionFrame();
+		}
+		if (frameName.equals("addCardFrame")){
+			addCardFrame();
+		}
+		if (frameName.equals("registerVisitFrame")){
+			registerVisitFrame();
+		}
+		if (frameName.equals("showMembersFrame")){
+			showMembersFrame();
+		}
+		if (frameName.equals("showCardsFrame")){
+			showCardsFrame();
+		}
+		if (frameName.equals("showVisitsFrame")){
+			showVisitsFrame();
+		}
+
+		/*setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	setBounds(100, 100, 450, 300);
+	contentPane = new JPanel();
+	contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+	contentPane.setLayout(new BorderLayout(0, 0));
+	setContentPane(contentPane);*/
+	}
+
+}
