@@ -1,0 +1,30 @@
+package GymClasses;
+import java.text.SimpleDateFormat;
+import java.util.*;
+public class Visit {
+	public String visitIndicator = "V";
+	//public String cardNumber;
+	private Calendar dateTime;
+	private String activityType;
+	private String activityName;
+	
+	public Calendar getDateTime(){
+		return dateTime;
+	}
+	public String getActivityType(){
+		return activityType;
+	}
+	public String getActivityName(){
+		return activityName;
+	}
+	 
+	public Visit(Calendar dt, String at, String an){	
+		//cardNumber = cNumber;
+		dateTime = dt;
+		activityType = at;
+		activityName = an;
+		Card.visitList.add(this);
+	}
+	public Visit(){
+	}
+}
