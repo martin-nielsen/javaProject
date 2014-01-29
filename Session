@@ -1,0 +1,45 @@
+package GymClasses;
+
+
+import java.util.*;
+
+public class Session {
+	// private variables
+	private String type;
+	private String name;
+	// Dates in this class are treated as follows: yy:MM:dd:mm
+	private String start;
+	private String end;
+	private int totalSlots;
+	private int bookedSlots;
+	private int freeSlots;
+	public ArrayList<Session> sessionList = new ArrayList<Session>();
+
+	public String getSessionName(){
+		return this.name;
+	}
+
+	public Integer getFreeSlots(String name){
+		for (int i = 0; i< sessionList.size(); i++){
+			// checks if the sessions name matches the input variable name
+			if (name.equals(sessionList.get(i).getSessionName())){
+				return sessionList.get(i).freeSlots;
+			}}
+		return 0;
+
+	}
+
+	//constructor
+	public Session(){
+	}        
+	public Session(String t, String nm, String st, String en, Integer tSlots){
+		type = t;
+		name = nm;
+		start = st;
+		end = en;
+		totalSlots = tSlots;
+		bookedSlots = 0;
+		freeSlots = tSlots;
+		sessionList.add(this);
+	}
+}
