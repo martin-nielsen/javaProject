@@ -4,7 +4,7 @@ import java.util.*;
 
 public class Card {
 	public String type;
-	public String owner;
+	private String owner;
 	private String cardNumber;
 	private String pnr;
 	private double price;
@@ -20,8 +20,29 @@ public class Card {
 	public static ArrayList<Visit> visitList = new ArrayList<Visit>();
 	//-------------------------------------------------------
 	//-------------------------------------------------------	
+	// setters
+	public void setOwner(Card c, String newOwner){
+		c.owner = newOwner; 
+	}
+	public void setCardNumber(Card c, String newCardNumber){
+		c.cardNumber = newCardNumber; 
+	}
+	public void setExpDate(Card c, Calendar newExpDate){
+		c.expdate = newExpDate; 
+	}
+	public void setActivityType(Card c, String newAC){
+		c.activityType = newAC; 
+	}
+	public void setRemainingCoupons(Card c, int newRemCoup){
+		c.remCoupons = newRemCoup; 
+	}
+	//-------------------------------------------------------
+	//-------------------------------------------------------	
 
 	// getters
+	public String getOwner(Card card){
+		return card.owner;
+	}
 	public String getCardNumber(){
 		return cardNumber;
 	}
@@ -40,7 +61,7 @@ public class Card {
 	public ArrayList<Visit> getVisitList(){
 		return visitList;
 	}
-
+	// Constructors
 	public Card(String tp, String cardn, String iD, double cost, String ds, Calendar expd, String aType){
 		type = tp;
 		cardNumber = cardn;
