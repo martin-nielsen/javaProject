@@ -1,0 +1,62 @@
+package GymClasses;
+
+import java.util.*;
+
+public class Card {
+	public String type;
+	public String owner;
+	private String cardNumber;
+	private String pnr;
+	private double price;
+	private String dateString;
+	private Calendar expdate;
+	private int remCoupons;
+	private String activityType;
+	//-------------------------------------------------------
+	//-------------------------------------------------------	
+
+	// static variables
+	public static ArrayList<Card> cardList = new ArrayList<Card>();
+	public static ArrayList<Visit> visitList = new ArrayList<Visit>();
+	//-------------------------------------------------------
+	//-------------------------------------------------------	
+
+	// getters
+	public String getCardNumber(){
+		return cardNumber;
+	}
+	public double getPrice(){
+		return price;
+	}
+	public Calendar getExpDate(){
+		return expdate;
+	}
+	public String getActivityType(){
+		return activityType;
+	}
+	public int getRemainingCoupons(){
+		return remCoupons;
+	}
+	public ArrayList<Visit> getVisitList(){
+		return visitList;
+	}
+
+	public Card(String tp, String cardn, String iD, double cost, String ds, Calendar expd, String aType){
+		type = tp;
+		cardNumber = cardn;
+		pnr = iD;
+		price = cost;
+		dateString = ds;
+		expdate = expd;
+		cardList.add(this);
+		activityType = aType;
+		if (type.equals("Coupons")){
+			remCoupons = (int)price/50;			
+		}else{
+			remCoupons = -1;
+		}
+	}
+	public Card(){
+	}
+}
+
