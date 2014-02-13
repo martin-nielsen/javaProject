@@ -5,6 +5,7 @@ import java.awt.BorderLayout;
 public class GUI extends JFrame {
 
 	private JPanel contentPane;
+	public String visitFrame;
 
 	// variables for start-screen
 	private JButton addMemberButton;
@@ -31,6 +32,7 @@ public class GUI extends JFrame {
 	private JLabel startLabel;
 	private JLabel endLabel;
 	private JLabel totalSlotsLabel;
+	private JLabel registeredCardLabel;
 	//TextFields
 	private JTextField nameTextField;
 	private JTextField idTextField;
@@ -48,7 +50,7 @@ public class GUI extends JFrame {
 	private JTextArea showMembersTextArea;
 	private JTextArea showCardsTextArea;
 	private JTextArea showVisitsTextArea;
-
+	private JTextField registeredCardTextField;
 	//return button
 	private JButton returnButton;
 
@@ -84,36 +86,44 @@ public class GUI extends JFrame {
 		//The buttons for the start screen
 		addMemberButton = new JButton("Register New Member");
 		addMemberButton.setSize(200,30);
-		addMemberButton.setLocation(220, 20);
+		addMemberButton.setLocation(20, 30);
 
 		addSessionButton = new JButton("Create a New Session");
 		addSessionButton.setSize(200,30);
-		addSessionButton.setLocation(220, 60);
+		addSessionButton.setLocation(20, 70);
 
 		addCardButton = new JButton("Register a New Card");
 		addCardButton.setSize(200,30);
-		addCardButton.setLocation(220, 100);
+		addCardButton.setLocation(20, 110);
 
 		registerVisitButton = new JButton("Register a New Visit");
 		registerVisitButton.setSize(200,30);
-		registerVisitButton.setLocation(220, 140);
+		registerVisitButton.setLocation(20, 150);
 
 		showMembersButton = new JButton("Show All Members");
 		showMembersButton.setSize(200,30);
-		showMembersButton.setLocation(220, 180);
+		showMembersButton.setLocation(20, 190);
 
 		showCardsButton = new JButton("Show All Cards");
 		showCardsButton.setSize(200,30);
-		showCardsButton.setLocation(220,220);
-		
-		saveChangesButton = new JButton("Save Changes");
+		showCardsButton.setLocation(20,230);
+
+		saveChangesButton = new JButton("Save Changes to Harddrive");
 		saveChangesButton.setSize(200,30);
-		saveChangesButton.setLocation(600,400);
-		
+		saveChangesButton.setLocation(350,350);
+
 		showVisitsButton = new JButton("Show Visits");
 		showVisitsButton.setSize(200,30);
-		showVisitsButton.setLocation(220,260);
-		
+		showVisitsButton.setLocation(20,270);
+
+		startLabel = new JLabel("Current members: ");
+		startLabel.setSize(200,30);
+		startLabel.setLocation(250, 0);
+
+		showMembersTextArea = new JTextArea(Member.partialPrint(Member.memberList, "name;id"));
+		showMembersTextArea.setSize(300,270);
+		showMembersTextArea.setLocation(250, 30);
+
 		//adds the elements of the start window.
 		this.add(addMemberButton);
 		this.add(addSessionButton);
@@ -123,6 +133,8 @@ public class GUI extends JFrame {
 		this.add(showCardsButton);
 		this.add(saveChangesButton);
 		this.add(showVisitsButton);
+		this.add(showMembersTextArea);
+		this.add(startLabel);
 		//initiates relevant frames
 
 		//Listeners for the startscreen buttons.
@@ -174,7 +186,7 @@ public class GUI extends JFrame {
 				showVisitsFrame.setVisible(true);
 			}
 		});		
-		
+
 	}
 	public void addMemberFrame(){
 		// the Labels for the member registration window
@@ -235,11 +247,18 @@ public class GUI extends JFrame {
 		this.add(registerButton);
 		registerButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				String name = nameTextField.getText();
-				String id = idTextField.getText();
-				String address = addressTextField.getText();
-				String phone = phoneTextField.getText();
-				Member M = new Member(name, id, address, phone);
+				try{
+					String name = nameTextField.getText();
+					String id = idTextField.getText();
+					String address = addressTextField.getText();
+					String phone = phoneTextField.getText();
+					Member M = new Member(name, id, address, phone);
+					JOptionPane.showMessageDialog(null, "The member "+ name +" was created succesfully.");
+				}
+				// add relevant exception handling here
+				catch(NumberFormatException e2){
+					e2.printStackTrace();
+				}
 			}
 		});
 
@@ -494,7 +513,7 @@ public class GUI extends JFrame {
 		cardNumberTextField = new JTextField();
 		cardNumberTextField.setSize(300,20);
 		cardNumberTextField.setLocation(120,20);
-		
+
 		activityTypeLabel = new JLabel("Activity Type: ");
 		activityTypeLabel.setSize(100,20);
 		activityTypeLabel.setLocation(20, 50);
@@ -510,13 +529,13 @@ public class GUI extends JFrame {
 		activityNameTextField.setSize(300,20);
 		activityNameTextField.setLocation(120,80);
 
+		// adds all the necessary elements to the frame
 		this.add(cardNumberLabel);
 		this.add(cardNumberTextField);
 		this.add(activityNameLabel);
 		this.add(activityNameTextField);
 		this.add(activityTypeLabel);
 		this.add(activityTypeTextField);
-
 		// Register button
 		registerButton = new JButton("Register");
 		registerButton.setSize(100,30);
@@ -524,11 +543,21 @@ public class GUI extends JFrame {
 		this.add(registerButton);
 		registerButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				//String cardNumber = cardNumberTextField.getText();
+				String cardNumber = cardNumberTextField.getText();
 				String activityType = activityTypeTextField.getText();
 				String activityName = activityNameTextField.getText();
 
-				GymClasses.Visit newVisit = new GymClasses.Visit(Calendar.getInstance(), activityType, activityName);
+				if (Card.Coupons.getCouponsCard(cardNumber) != null){
+					GymClasses.Visit newVisit = new GymClasses.Visit(Card.Coupons.getCouponsCard(cardNumber), Calendar.getInstance(), activityType, activityName);
+					Card.Coupons.getCouponsCard(cardNumber);
+				}
+				if (Card.Period.getPeriodCard(cardNumber) != null){
+					GymClasses.Visit newVisit = new GymClasses.Visit(Card.Period.getPeriodCard(cardNumber), Calendar.getInstance(), activityType, activityName);
+				}
+				//ownersCard = findCard(cardRegistered);
+				// idea for restructuring Visit and Card class
+				//GymClasses.Visit newVisit = new GymClasses.Visit(Calendar.getInstance(), activityType, activityName, ownersCard);
+
 			}
 		});
 
@@ -551,8 +580,7 @@ public class GUI extends JFrame {
 		setTitle("Members Display");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLayout(null);
-		//String nuMem = Integer.toString(Member.numberOfMembers);
-		//showMembersTextField = new JTextField(nuMem);
+
 		showMembersTextArea = new JTextArea(DataIO.writeCustomerString(Member.memberList));//
 		showMembersTextArea.setSize(450,400);
 		showMembersTextArea.setLocation(20,20);
@@ -579,9 +607,13 @@ public class GUI extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLayout(null);
 
+		setPreferredSize(new Dimension(450,110));
 		showCardsTextArea = new JTextArea(
-				DataIO.writeCardString(Member.memberList)
-			);
+				DataIO.writePeriodCardString(Member.memberList) + "\n" 
+						+
+						DataIO.writeCouponCardString(Member.memberList)
+
+				);
 		showCardsTextArea.setSize(450,400);
 		showCardsTextArea.setLocation(20,20);
 		this.add(showCardsTextArea);
@@ -606,10 +638,47 @@ public class GUI extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLayout(null);
 
-		showVisitsTextArea = new JTextArea(DataIO.writeVisitString());
-		showVisitsTextArea.setSize(450,400);
-		showVisitsTextArea.setLocation(20,20);
+		cardNumberLabel = new JLabel("Card Number: ");
+		cardNumberLabel.setSize(100,20);
+		cardNumberLabel.setLocation(20,20);
+		this.add(cardNumberLabel);
+		cardNumberTextField = new JTextField();
+		cardNumberTextField.setSize(300,20);
+		cardNumberTextField.setLocation(120,20);
+		this.add(cardNumberTextField);
+
+		//String cardN = cardNumberTextField.getText();
+		//Card.Coupons newCCard = Card.getCouponsCard("12345");
+		showVisitsTextArea = new JTextArea();
+		showVisitsTextArea.setSize(450,200);
+		showVisitsTextArea.setLocation(20,80);
 		this.add(showVisitsTextArea);
+
+		registerButton = new JButton("Show visits");
+		registerButton.setSize(100,30);
+		registerButton.setLocation(500, 100);
+		this.add(registerButton);
+		registerButton.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				try{
+					String visitFrame = cardNumberTextField.getText();
+					GUI showVisitsFrame2 = new GUI("showVisitsFrame2");
+					showVisitsFrame2.setVisible(true);	
+					//	JOptionPane.showMessageDialog(null, DataIO.writeVisitString(newCCard));
+					//}
+					//Card.Period newPCard = Card.getPeriodCard(cardN);
+					//if (newPCard != null){
+					//	JOptionPane.showMessageDialog(null, DataIO.writeVisitString(newPCard));
+
+					//}
+				}
+				catch(NumberFormatException e2){
+					e2.printStackTrace();
+				}
+
+			}
+
+		});
 
 		// Return Button
 		returnButton = new JButton("Back");
@@ -624,6 +693,69 @@ public class GUI extends JFrame {
 		});
 
 	}
+	public void showVisitsFrame2(String cardN){
+		setSize(640,480);
+		setLocation(250,250);
+		setTitle("Visits Display");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setLayout(null);
+		/*
+		cardNumberLabel = new JLabel("Card Number: ");
+		cardNumberLabel.setSize(100,20);
+		cardNumberLabel.setLocation(20,20);
+		this.add(cardNumberLabel);
+		cardNumberTextField = new JTextField();
+		cardNumberTextField.setSize(300,20);
+		cardNumberTextField.setLocation(120,20);
+		this.add(cardNumberTextField);
+		 */
+		//String cardN = cardNumberTextField.getText();
+		//Card.Coupons newCCard = Card.getCouponsCard("12345");
+		showVisitsTextArea = new JTextArea(DataIO.writeVisitString(Card.Period.getPeriodCard(cardN)));
+		showVisitsTextArea.setSize(450,200);
+		showVisitsTextArea.setLocation(20,80);
+		this.add(showVisitsTextArea);
+
+		/*registerButton = new JButton("Show visits");
+		registerButton.setSize(100,30);
+		registerButton.setLocation(500, 100);
+		this.add(registerButton);
+		registerButton.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				try{
+					String cardN = cardNumberTextField.getText();
+					Card.Coupons newCCard = Card.getCouponsCard(cardN);
+					if (newCCard != null){
+
+						JOptionPane.showMessageDialog(null, DataIO.writeVisitString(newCCard));
+					}
+					Card.Period newPCard = Card.getPeriodCard(cardN);
+					if (newPCard != null){
+						JOptionPane.showMessageDialog(null, DataIO.writeVisitString(newPCard));
+
+					}
+				}
+				catch(NumberFormatException e2){
+					e2.printStackTrace();
+				}
+
+			}
+
+		});
+		 */
+		// Return Button
+		returnButton = new JButton("Back");
+		returnButton.setSize(100,30);
+		returnButton.setLocation(500, 20);
+		this.add(returnButton);
+		returnButton.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				GUI startFrame = new GUI("startFrame");
+				startFrame.setVisible(true);
+			}
+		});
+	}
+
 	public GUI(String frameName) {
 		if (frameName.equals("startFrame")){
 			init();
@@ -648,6 +780,9 @@ public class GUI extends JFrame {
 		}
 		if (frameName.equals("showVisitsFrame")){
 			showVisitsFrame();
+		}
+		if (frameName.equals("showVisitsFrame2")){
+			showVisitsFrame2(visitFrame);
 		}
 
 		/*setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
