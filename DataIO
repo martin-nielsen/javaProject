@@ -129,6 +129,7 @@ public class DataIO {
 				String type = data[0];
 				// We know that the second part is the card number
 				String cardno = data[1];
+				System.out.print(cardno);
 				// We know that the third part is the social security no (personnummer) of the card owner
 				String pnr = data[2];
 				// We know that the fourth part is the price of the card
@@ -167,12 +168,11 @@ public class DataIO {
 
 					// If the card was a "periods card" (periodkort) then create an instance of that type...
 					if (type.equalsIgnoreCase("Period")){
-
 						// TODO: This is where you add your code to create a periods card instance based on the data
-						Card tc = new Card("Period", cardno, pnr, price, datestring, expdate, "");
+						Card.Period tc = new Card().new Period("Period", cardno, pnr, price, expdate, datestring, visits);
 						// Find the person who holds the card and add it to that person's list of cards
 						// TODO: Add a call to the addCardToCustomer()-method passing the new card instance as a parameter
-						addCardToCustomer(pnr ,tc);
+						addPeriodCardToCustomer(pnr,tc);
 					} else 
 						// If the card was a "coupons ticket" (klippkort) then create an instance of that type...
 						if (type.equalsIgnoreCase("Coupons") && data.length == 7){
@@ -182,10 +182,10 @@ public class DataIO {
 							int totalcoupons = Integer.parseInt(data[6]);
 
 							// TODO: This is where you add your code to create a coupons card instance based on the data
-							Card pc = new Card("Coupons" ,cardno, pnr, price, datestring, expdate, activitytype);
+							Card.Coupons cc = new Card().new Coupons("Coupons" ,cardno, pnr, price, activitytype, (int)price/50, visits);
 							// Find the person who holds the card and add it to that person's list of cards
 							// TODO: Add a call to the addCardToCustomer()-method passing the new card as a parameter
-							addCardToCustomer(pnr, pc);
+							addCouponsCardToCustomer(pnr, cc);
 						}
 
 
@@ -237,8 +237,7 @@ public class DataIO {
 				// ...then add the new visit to the list
 				// TODO: Add your code here to add the new visit to the list (the variable "visits")
 				visits.add(newVisit);
-				Card.visitList.add(newVisit);
-
+				//Card.visitList.add(newVisit);
 			} catch (Exception e) {
 				// Add code here if needed to handle any exceptions that may arise above...
 				e.printStackTrace();
@@ -254,29 +253,38 @@ public class DataIO {
 	 * @param newcard the card that should be added to the person's list of cards
 	 */
 	// TODO: Replace "Object" in the parameter list with your card type (class)
-	public static void addCardToCustomer(String pnr, Card newcard){
-		/* For each customer in the list of all customers in the system (hint: use a for-each loop 
-		 * that loops over the list of all customers that is managed by your customer class, if that 
-		 * list is private you have to use a method to retrieve it), and check if the
-		 * social security number of each customer in the list is the same as the pnr-argument.
-		 * If they are the same, connect this card to that customer, e.g. by adding the new 
-		 * card to a list that keeps track of all cards of that customer. 
-		 * For instance, by calling a method on that customer instance, e.g. something
-		 * like addCard(...), and pass the new card (the newcard-argument) as an argument 
-		 * to that method. As soon as you have found the right customer, you can use "break" to 
-		 * stop the loop.  
-		 * 
-		 * You do not need to solve the problem in exactly this way, this is just a hint
-		 * towards ONE way of doing it! The important thing is the outcome, after this method has 
-		 * been ran, the new card should be connected to the right customer!
-		 */
 
-		// TODO: add your code here...
+	/* For each customer in the list of all customers in the system (hint: use a for-each loop 
+	 * that loops over the list of all customers that is managed by your customer class, if that 
+	 * list is private you have to use a method to retrieve it), and check if the
+	 * social security number of each customer in the list is the same as the pnr-argument.
+	 * If they are the same, connect this card to that customer, e.g. by adding the new 
+	 * card to a list that keeps track of all cards of that customer. 
+	 * For instance, by calling a method on that customer instance, e.g. something
+	 * like addCard(...), and pass the new card (the newcard-argument) as an argument 
+	 * to that method. As soon as you have found the right customer, you can use "break" to 
+	 * stop the loop.  
+	 * 
+	 * You do not need to solve the problem in exactly this way, this is just a hint
+	 * towards ONE way of doing it! The important thing is the outcome, after this method has 
+	 * been ran, the new card should be connected to the right customer!
+	 */
+	public static void addPeriodCardToCustomer(String pnr, Card.Period newcard){
+		for (int i = 0; i < Member.memberList.size(); i++){
+			if (pnr.equals(Member.memberList.get(i).getID())){
+				Card.cardList.add(newcard);
+				Member.memberList.get(i).getPeriodCardList().add(newcard);	
+			}
+		}
+	}
+	public static void addCouponsCardToCustomer(String pnr, Card.Coupons newcard){
+		//  add your code here...
 		for (int i = 0; i < Member.memberList.size(); i++){
 			// checks for member with same pnr then adds the new card to the card list.
 			if (pnr.equals(Member.memberList.get(i).getID())){
 				Card.cardList.add(newcard);
-				Member.memberList.get(i).getMemberCardList().add(newcard);
+
+				Member.memberList.get(i).getCouponsCardList().add(newcard);
 			}
 		}
 	}
@@ -341,6 +349,7 @@ public class DataIO {
 	// added by us to return a string which is easy to display using JTextFields
 	private static String customerString;
 	public static String writeCustomerString(ArrayList<Member> mList){
+		customerString = "";
 		for (int i = 0; i < Member.memberList.size(); i++){
 			// Get the name
 			String name = mList.get(i).getName();
@@ -383,6 +392,56 @@ public class DataIO {
 	 * so that it uses your customer class instead of "MyCustomerClass", and your card class instead of 
 	 * "MyCardClass" etc., and similarly with the get-methods): 
 	 */
+	private static String couponCardString;
+	public static String writeCouponCardString(ArrayList<Member> mList){
+		for (int i = 0; i < mList.size();i++){
+			Member customer = mList.get(i);
+			for (Card.Coupons card : customer.getCouponsCardList()){
+				String cardno = card.getCardNumber();
+				double price = card.getPrice();
+				// If the card is a period card...
+
+				// Get the type of activity the card is valid for
+				String type = ((Card.Coupons)card).getActivityType();
+				// Get the total no of coupons of the card (the original number, not the remaining ones)
+				int totalcoupons = ((Card.Coupons)card).getRemainingCoupons();
+				// Create the string to print to file
+				String cardstring = "Coupons;" + cardno + ";" + mList.get(i).idNumber + ";" + price + ";" + ";" + type + ";" + totalcoupons;
+				couponCardString += cardstring + "\n";
+				// Proceed to write all the visits of this card
+				//cardString += writeVisits(card,pr);
+			}
+		}
+		return couponCardString;
+	}
+	private static String periodCardString;
+	public static String writePeriodCardString(ArrayList<Member> mList){
+		for (int i = 0; i < mList.size();i++){
+			Member customer = mList.get(i);
+			for (Card.Period card : customer.getPeriodCardList()){
+				String cardno = card.getCardNumber();
+				double price = card.getPrice();
+				// If the card is a period card...
+				Calendar carddate = card.getExpDate();
+				SimpleDateFormat dformat = new SimpleDateFormat("yyyy-MM-dd");
+				String carddatestring = dformat.format(carddate.getTime());
+
+				// Get the type of activity the card is valid for
+				String type = ((Card.Period)card).getActivityType();
+				// Create the string to print to file
+				//String cardstring = "Period;" + cardno + ";" + mList.get(i).idNumber + ";" + price + ";" + ";" + type + ";" + totalcoupons;
+				//periodCardString += cardstring + "\n";
+				
+				String cardstring = "Period; Cardnumber: " + cardno + "; IDNumber: " + mList.get(i).idNumber + "; Price: " + price + "; " + carddatestring;
+				periodCardString += cardstring + "\n";
+				
+				// Proceed to write all the visits of this card
+				//periodCardString += writeVisits(card,pr);
+			}
+		}
+		return periodCardString;
+	}
+	/*
 	private static String cardString;
 	public static String writeCardString(ArrayList<Member> mList){
 		for (int i = 0; i < mList.size();i++){
@@ -392,7 +451,9 @@ public class DataIO {
 				double price = card.getPrice();
 
 				// Get the Calendar-instance representing the card expiration date
-				Calendar carddate = card.getExpDate();
+				if (card.type.equals("Period")){
+					Calendar carddate = card.getExpDate();
+				}
 				// Create an instance of SimpleDateFormat that represents the way we want the string formatted
 				SimpleDateFormat dformat = new SimpleDateFormat("yyyy-MM-dd");
 				// Use the format()-method to produce a string that represents a date in this format 
@@ -424,10 +485,11 @@ public class DataIO {
 		}
 		return cardString;
 	}
+	*/
 	private static void writeCards (Member customer, PrintWriter pr){
 		String pnr = customer.getID();
 
-		for (Card card : customer.getMemberCardList()){
+		for (Card.Period card : customer.getPeriodCardList()){
 			String cardno = card.getCardNumber();
 			double price = card.getPrice();
 
@@ -447,22 +509,35 @@ public class DataIO {
 				// Proceed to write all the visits of this card
 				writeVisits(card,pr);
 
-			} else
-				// If this is a coupon card (klippkort)...
-				if (card.type.equals("Coupons")){
-					// Get the type of activity the card is valid for
-					String type = ((Card)card).getActivityType();
-					// Get the total no of coupons of the card (the original number, not the remaining ones)
-					int totalcoupons = ((Card)card).getRemainingCoupons();
-					// Create the string to print to file
-					String cardstring = "Coupons;" + cardno + ";" + pnr + ";" + price + ";" + carddatestring + ";" + type + ";" + totalcoupons;
-					pr.println(cardstring);
-					// Proceed to write all the visits of this card
-					writeVisits(card,pr);
-				}
+			} 
 		}
+		for (Card.Coupons card : customer.getCouponsCardList()){
+			String cardno = card.getCardNumber();
+			double price = card.getPrice();
 
+			// Get the Calendar-instance representing the card expiration date
+			//Calendar carddate = card.getExpDate();
+			// Create an instance of SimpleDateFormat that represents the way we want the string formatted
+			//SimpleDateFormat dformat = new SimpleDateFormat("yyyy-MM-dd");
+			// Use the format()-method to produce a string that represents a date in this format 
+			// (note that this method takes a Date as input, hence we need to first use the getTime() method on our Calendar)
+			//String carddatestring = dformat.format(carddate.getTime());
+
+			if (card.type.equals("Coupons")){
+				// Get the type of activity the card is valid for
+				String type = ((Card.Coupons)card).getActivityType();
+				// Get the total no of coupons of the card (the original number, not the remaining ones)
+				int totalcoupons = ((Card.Coupons)card).getRemainingCoupons();
+				// Create the string to print to file
+				String cardstring = "Coupons;" + cardno + ";" + pnr + ";" + price + ";" +  type + ";" + totalcoupons;
+				pr.println(cardstring);
+				// Proceed to write all the visits of this card
+				writeVisits(card,pr);
+			}
+		}
 	}
+
+
 
 	/* TODO: If you follow the structure suggested above, then you need to create a (private static void-)
 	 * method called writeVisits() that takes two parameters, one card instance and one PrintWriter. 
@@ -475,7 +550,7 @@ public class DataIO {
 	 */
 
 	private static void writeVisits (Card card, PrintWriter pr){	
-		for (Visit visit  : card.getVisitList()){
+		for (Visit visit  : card.visitList){
 			// Get the Calendar-instance representing the visit date and time
 			Calendar visitdatetime = visit.getDateTime();
 			// Create an instance of SimpleDateFormat that represents the way we want the string formatted
@@ -495,13 +570,15 @@ public class DataIO {
 		}
 	}
 	public static String visitString;
-	public static String writeVisitString(){
+	public static String writeVisitString(Card c){
 		SimpleDateFormat dformat = new SimpleDateFormat("yyyy-MM-dd' 'HH:mm");
-		for (int i = 0; i < Card.visitList.size(); i++){
-			String aType = Card.visitList.get(i).getActivityType();
-			String activityName = Card.visitList.get(i).getActivityName();
-			String visitDate = dformat.format(Card.visitList.get(i).getDateTime());;
-			DataIO.visitString += "V;" + aType + activityName + visitDate;
+		for (int i = 0; i < c.cardVisitList.size(); i++){
+			String aType = c.cardVisitList.get(i).getActivityType();
+			String activityName = c.cardVisitList.get(i).getActivityName();
+			String visitDate = c.cardVisitList.get(i).getDateTime().toString();
+			//= dformat.format(Card.visitList.get(i).getDateTime())
+			visitString += "V;" + aType + "; " + activityName + "; " + visitDate + "\n";
+
 		}
 		return visitString;
 
