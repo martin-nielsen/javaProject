@@ -5,13 +5,12 @@ import java.util.*;
 
 public class Session {
 	// private variables
-	private String type;
+	private String type; //Only three types exist, 
 	private String name;
 	// Dates in this class are treated as follows: yy:MM:dd:mm
 	private String start;
 	private String end;
 	private int totalSlots;
-	private int bookedSlots;
 	private int freeSlots;
 	public ArrayList<Session> sessionList = new ArrayList<Session>();
 
@@ -38,7 +37,6 @@ public class Session {
 		start = st;
 		end = en;
 		totalSlots = tSlots;
-		bookedSlots = 0;
 		freeSlots = tSlots;
 		sessionList.add(this);
 	}
