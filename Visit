@@ -3,7 +3,6 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 public class Visit {
 	public String visitIndicator = "V";
-	//public String cardNumber;
 	private Calendar dateTime;
 	private String activityType;
 	private String activityName;
@@ -17,13 +16,25 @@ public class Visit {
 	public String getActivityName(){
 		return activityName;
 	}
-	 
-	public Visit(Calendar dt, String at, String an){	
-		//cardNumber = cNumber;
+	public Visit(Calendar dt, String at, String an){
 		dateTime = dt;
 		activityType = at;
 		activityName = an;
 		Card.visitList.add(this);
+	}
+	public Visit(Card.Coupons card, Calendar dt, String at, String an){	
+		dateTime = dt;
+		activityType = at;
+		activityName = an;
+		Card.visitList.add(this);
+		card.cardVisitList.add(this);
+	}
+	public Visit(Card.Period card, Calendar dt, String at, String an){	
+		dateTime = dt;
+		activityType = at;
+		activityName = an;
+		Card.visitList.add(this);
+		card.cardVisitList.add(this);
 	}
 	public Visit(){
 	}
