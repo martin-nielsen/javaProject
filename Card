@@ -4,61 +4,71 @@ import java.util.*;
 
 public class Card {
 	public String type;
-	private String owner;
 	private String cardNumber;
 	private String pnr;
 	private double price;
-	private String dateString;
-	private Calendar expdate;
-	private int remCoupons;
 	private String activityType;
+	public ArrayList<Visit> cardVisitList = new ArrayList<Visit>();
+
 	//-------------------------------------------------------
 	//-------------------------------------------------------	
 
 	// static variables
+	public static ArrayList<Card.Period> periodCardList = new ArrayList<Card.Period>();
+	public static ArrayList<Card.Coupons> couponsCardList = new ArrayList<Card.Coupons>();
+	// List of all existing cards
 	public static ArrayList<Card> cardList = new ArrayList<Card>();
+	// list of all visits by all cards
 	public static ArrayList<Visit> visitList = new ArrayList<Visit>();
 	//-------------------------------------------------------
 	//-------------------------------------------------------	
 	// setters
-	public void setOwner(Card c, String newOwner){
-		c.owner = newOwner; 
+	public void setOwner(String newOwnerID){
+		pnr = newOwnerID; 
 	}
-	public void setCardNumber(Card c, String newCardNumber){
-		c.cardNumber = newCardNumber; 
+	public void setCardNumber(String newCardNumber){
+		cardNumber = newCardNumber; 
 	}
-	public void setExpDate(Card c, Calendar newExpDate){
-		c.expdate = newExpDate; 
+
+	public void setActivityType(String newAC){
+		activityType = newAC; 
 	}
-	public void setActivityType(Card c, String newAC){
-		c.activityType = newAC; 
-	}
-	public void setRemainingCoupons(Card c, int newRemCoup){
-		c.remCoupons = newRemCoup; 
-	}
+
 	//-------------------------------------------------------
 	//-------------------------------------------------------	
 
 	// getters
-	public String getOwner(Card card){
-		return card.owner;
+	public static Member getOwner(String cardN){
+		Member m = new Member();
+		for (int i = 0 ; i < Member.memberList.size() ; i++){
+			if (Member.memberList.get(i).idNumber.equals(cardN)){
+				m = Member.memberList.get(i);
+			}
+		}
+		return m;
 	}
-	public String getCardNumber(){
-		return cardNumber;
+	// Method for acquiring a card through it's card number
+	public static Card.Period getPeriodCard(String cardNumber){
+		Card.Period pCard = new Card().new Period();
+		for (int i = 0 ; i < periodCardList.size() ; i++){
+			// checks if the input cardnumber equals the current cards cardnumber
+			if (periodCardList.get(i).getCardNumber().equals(cardNumber)){
+				pCard = periodCardList.get(i);	
+			}
+		}
+		return pCard;
 	}
-	public double getPrice(){
-		return price;
+	public static Card.Coupons getCouponsCard(String cardNumber){ 
+		for (int i = 0 ; i < couponsCardList.size() ; i++){
+			// checks if the input card number equals the current cards cardnumber
+			if (couponsCardList.get(i).getCardNumber().equals(cardNumber)){
+				return couponsCardList.get(i);	
+			}
+		}
+		return null;
 	}
-	public Calendar getExpDate(){
-		return expdate;
-	}
-	public String getActivityType(){
-		return activityType;
-	}
-	public int getRemainingCoupons(){
-		return remCoupons;
-	}
-	public ArrayList<Visit> getVisitList(){
+
+	public ArrayList<Visit> getCardVisitList(){
 		return visitList;
 	}
 	// Constructors
@@ -67,17 +77,114 @@ public class Card {
 		cardNumber = cardn;
 		pnr = iD;
 		price = cost;
-		dateString = ds;
-		expdate = expd;
 		cardList.add(this);
 		activityType = aType;
+
+		// Is run for reading of datafiles
 		if (type.equals("Coupons")){
-			remCoupons = (int)price/50;			
-		}else{
-			remCoupons = -1;
+			Card.Coupons coupCard = new Coupons(tp, cardn, iD, cost, aType, (int)price/50, cardVisitList);
+
+		}
+		if (type.equals("Period")){
+			Card.Period periodCard = new Period(tp, cardn, iD, cost, expd, ds, cardVisitList);
 		}
 	}
 	public Card(){
 	}
+	public class Period extends Card{
+		private String dateString;
+		private Calendar expdate;
+		//public ArrayList<Visit> visitList = new ArrayList<Visit>();
+
+		// constructors
+		public Period(String tp, String cardno, String pn, double pr, Calendar calDate, String ds, ArrayList<Visit> visitListIn){
+			//super(type ,owner, cardNumber, pnr, price, activityType);
+			type = tp;
+			cardNumber = cardno;
+			pnr = pn;
+			price = pr;
+			dateString = ds;
+			expdate = calDate;
+			periodCardList.add(this);
+			cardVisitList = visitListIn;
+		}
+		public Period(){
+		}
+
+		//Methods
+		public Calendar getExpDate(){
+			return expdate;
+		}
+		public void setExpDate(Calendar newExpDate){
+			expdate = newExpDate; 
+		}
+		public String getCardNumber(){
+			return cardNumber;
+		}
+		public double getPrice(){
+			return price;
+		}
+		public String getActivityType(){
+			return activityType;
+		}
+
+	}
+
+	public class Coupons extends Card{
+		private int remainingCoupons;
+		private int totalCoupons = (int)(price/50);
+		private Calendar expdate;
+		public ArrayList<Visit> visitList = new ArrayList<Visit>();
+
+		//Constructors
+		public Coupons(String tp, String cardno, String pn, double pr, String ac, int totalCoup, ArrayList<Visit> visitListIn){
+			//super(type, owner, cardNumber, pnr, price, activityType);
+			type = tp;
+			cardNumber = cardno;
+			pnr = pn;
+			price = pr;
+			activityType = ac;
+			totalCoupons = totalCoup;
+			remainingCoupons = totalCoup;
+			cardVisitList = visitListIn;
+			couponsCardList.add(this);
+
+		}
+		//public Coupons(){
+		//}
+		public ArrayList<Card.Coupons> getCouponsCardList(){
+			return couponsCardList;
+		}
+		public ArrayList<Visit> getVisitList(){
+			return cardVisitList;
+		}
+		public int getRemainingCoupons(){
+			return remainingCoupons;
+		}
+		public void setRemainingCoupons(int newRemCoup){
+			remainingCoupons = newRemCoup; 
+		}
+		public int getTotalCoupons(){
+			return totalCoupons; 
+		}
+		public String getCardNumber(){
+			return cardNumber;
+		}
+		public void decrementCoupons(){
+			remainingCoupons -= 1;
+		}
+		public Calendar getExpDate(){
+			return expdate;
+		}
+		public double getPrice(){
+			return price;
+		}
+		public String getActivityType(){
+			return activityType;
+		}
+
+	}
 }
+
+
 
